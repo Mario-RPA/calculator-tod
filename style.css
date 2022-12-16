@@ -1,0 +1,30 @@
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(4, 100px);
+    grid-template-rows: minmax(100px, auto) repeat(5, 80px);
+    border: 5px solid black;
+}
+
+.display {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    text-align: end;
+    grid-column: 1 / -1;
+    background-color: lightgray;
+    padding: 10px;
+}
+
+.equals {
+    grid-row: span 2;
+}
+
+.zero,.clear {
+    grid-column: span 2;
+}
