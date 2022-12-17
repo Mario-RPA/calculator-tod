@@ -5,17 +5,14 @@ div = (x, y) => x/y;
 
 const display = document.querySelector(".display");
 
-let operator = "mul";
+let operator;
 let operands = [];
-operands.push(1);
-operands.push(8);
-operands.shift;
+
+let shouldClear;
 
 //div by 0
-//if there is a third operand, remove the first one
 // operator = function name
 validate = function (operator, x, y) { 
-    if (operands.length === 3) operands.shift;
     if (operator === "div" && y === 0) return true;
 }
 //if validations passed, calls back the operator function
@@ -24,22 +21,55 @@ operate = function (operator, validate, x, y) {
     return validate(operator.name, x, y) ? "no u" : operator(x, y);
 }
 
-updateDisplay = function (e) {
-    console.log(typeof(Number(e.target.value)));
-    console.log(Number(e.target.value));
-    if (typeof(Number(e.target.value)) === "number" && e.target.value !== NaN) {
-        //if the value is a number, concat, store, etc.
-        display.textContent += e.target.value;
+inputNumbers = function (value) {
+    if (!isNaN(Number(value))) {
+        if((display.textContent === "0" && value !== ".") || shouldClear)
+            display.textContent = "";
+        shouldClear = false;
+        return display.textContent += value;
+    } else if (value === "." && !display.textContent.includes(".")) {
+        return display.textContent += value;
     }
-    switch (e.target.value) {
-        case "add":
-            operator = e.target.value
+}
+
+getOperators = function (ope) {
+    switch (ope) {
+        case "clear":
+            reload();
             break;
+        case "operate":
+            switch (operands.length) {
+                case 0:
+                    if (display.textContent !== "0") operands.push(Number(display.textContent));
+                    break;
+                case 1:
+                    operands.push(Number(display.textContent));
+            }
+            if(operands.length === 2) {
+                    operands[0] = operate(window[operator], validate, ...operands);
+                    operands.pop();
+                    display.textContent = operands[0];
+                    shouldClear = true;
+            }
+            break;           
+        default:
+            operator = ope;
+            operands.push(Number(display.textContent));
+            shouldClear = true;
     }
+
+}
+
+reload = function () {
+    operator = "";
+    operands = [];
+    display.textContent = "0";
 }
 
 
 // console.log(operate(window[operator], validate, ...operands));
 
-const keys = document.querySelectorAll(".key");
-keys.forEach(key => key.addEventListener("click", e => updateDisplay(e)));
+const keys = document.querySelectorAll(".key-num");
+keys.forEach(key => key.addEventListener("click", e => inputNumbers(e.target.value)));
+const keysOperator = document.querySelectorAll(".key-operator");
+keysOperator.forEach(key => key.addEventListener("click", e => getOperators(e.target.value)));
