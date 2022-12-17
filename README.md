@@ -3,4 +3,4 @@
 Doing this because Hany told me
 https://www.theodinproject.com/lessons/foundations-calculator
 
-Pending: chained calculations
+Buggy chained operations, moving on with the course, calculators are boring. sorry!

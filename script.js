@@ -46,15 +46,25 @@ getOperators = function (ope) {
                     operands.push(Number(display.textContent));
             }
             if(operands.length === 2) {
-                    operands[0] = operate(window[operator], validate, ...operands);
-                    operands.pop();
-                    display.textContent = operands[0];
+                    // operands[0] = operate(window[operator], validate, ...operands);
+                    // operands.pop();
+                    // display.textContent = operands[0];
+                    display.textContent = operate(window[operator], validate, ...operands);
+                    if (operator === "operate") {
+                        operands = [];
+                    } else {
+                        operands[0] = operate(window[operator], validate, ...operands);
+                        operands.pop();
+                    }
+                    // operands[0] = operate(window[operator], validate, ...operands);
+                    // operands.pop();
                     shouldClear = true;
             }
             break;           
         default:
-            operator = ope;
             operands.push(Number(display.textContent));
+            if (operands.length >=2) getOperators("operate");
+            operator = ope;
             shouldClear = true;
     }
 
